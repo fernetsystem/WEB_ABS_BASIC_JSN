@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        <link rel="stylesheet" type="text/css" href="css/estilo.css" />
+        <link rel="stylesheet" href="themes/my_custom-theme.min.css" />
+        <link rel="stylesheet" href="themes/jquery.mobile.icons.min.css" />
+        <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile.structure-1.4.5.min.css" />
+        <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+        <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+        <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+        <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+        
+        <title>CFE</title>
+
+    </head>
+    <body onload="onBodyLoad">
+
+    <!--Pagina de login-->
+    <div data-role="page">
+        <div data-role="header">
+            <h1>Cambiar información</h1>
+        </div>
+        <div data-role="content">   
+            <form id="formulario"><!--ADD identificador de formulario-->
+                <input type="text" data-clear-btn="true" name="clave" id="clave" value="" placeholder="Ingrese la clave del empleado">
+                <h3>Modificar información</h3>
+                <input type="text" data-clear-btn="true" name="usuario" id="usuario" value="" placeholder="Ingrese la modificacion del usuario">
+                <input type="password" data-clear-btn="true" name="password" id="password" value="" autocomplete="off" placeholder="Ingrese la modificacion de la contraseña">
+                <!--ADD identificador de boton id="botonLogin"-->
+                <input type="submit" value="Realizar cambios" id="botonLogin">
+            </form>
+        </div>
+    </div>
+
+<script type="text/javascript">
+
+$('#formulario').submit(function() { 
+    
+     
+    // recolecta los valores que inserto el usuario
+    var datosClave = $("#clave").val()
+    var datosUsuario = $("#usuario").val()
+    var datosPassword = $("#password").val()
+    
+    archivoValidacion = "http://systemxlr.96.lt/Server/update.php?jsoncallback=?"
+    $.getJSON( archivoValidacion, { clave:datosClave ,usuario:datosUsuario ,password:datosPassword})
+    .done(function(respuestaServer) {
+        
+        if(respuestaServer.validacion == "ok"){
+             $.mobile.changePage("correct.html")          
+        }else{  
+           $.mobile.changePage("incorrect.html")
+        
+        }
+  
+    })
+    return false;
+})
+</script>
+
+    </body>
+</html>
