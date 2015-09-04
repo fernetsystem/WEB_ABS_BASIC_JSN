@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        <link rel="stylesheet" type="text/css" href="css/estilo.css" />
+        <link rel="stylesheet" href="themes/my_custom-theme.min.css" />
+        <link rel="stylesheet" href="themes/jquery.mobile.icons.min.css" />
+        <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile.structure-1.4.5.min.css" />
+        <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+        <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+        <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+        <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+        
+        <title>CFE</title>
+
+    </head>
+    <body onload="onBodyLoad">
+
+    <!--Listado de usuarios-->
+    <div data-role="page" id="empleados">
+        <div data-role="header">
+            <h1>Empleados</h1>
+        </div>
+        <div data-role="content">
+            <h3>Listado de empleados</h3>
+            <form>
+                <input id="filterTable-input" data-type="search">
+            </form>
+        <table data-role="table" id="table-custom-2"  class="ui-body-d ui-shadow table-stripe ui-responsive" data-column-btn-theme="b" data-filter="true" data-input="#filterTable-input" >
+        <thead>
+            <tr>
+                <th data-priority="1">Clave</th>
+                <th data-priority="3">Usuario</th>
+                <th data-priority="2">Password</th>    
+            </tr>
+         </thead>
+        <tbody id="LlenarLista">   
+        </tbody>
+        </table>
+        </div>
+    </div>
+    
+
+
+
+<script type="text/javascript">
+$('#empleados').bind('pageinit', function(event) {
+    getempleados();
+});
+
+
+function getempleados() {
+
+    var output = $('#LlenarLista');
+
+    $.ajax({
+        url: 'http://systemxlr.96.lt/Server/select.php',
+        dataType: 'jsonp',
+        jsonp: 'jsoncallback',
+        timeout: 5000,
+        success: function(data, status){
+            $.each(data, function(i,item){
+               var place = '<tr><td>'+item.clave+'</td><td>'+ item.usuario+'</td><td> '+item.password+'</td></tr>';
+
+                
+                output.append(place);
+            });
+            $('#LlenarLista').listview('refresh');
+        },
+        error: function(){
+            output.text('There was an error loading the data.');
+        }
+    });
+
+}
+</script>
+
+    </body>
+</html>
